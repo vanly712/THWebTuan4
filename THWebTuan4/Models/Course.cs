@@ -16,6 +16,13 @@ namespace THWebTuan4.Models
         }
 
         public int Id { get; set; }
+        public string Name;
+        public string LectureName;
+
+        public bool isLogin = false;
+        public bool isShowGoing = false;
+        public bool isShowFollow = false;
+        public List<Category> ListCategory = new List<Category>();
 
         [Required]
         [StringLength(128)]
@@ -28,7 +35,7 @@ namespace THWebTuan4.Models
         public DateTime DateTime { get; set; }
 
         public int CategoryId { get; set; }
-        public List<Category> ListCategory = new List<Category>();
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Attendance> Attendances { get; set; }
 

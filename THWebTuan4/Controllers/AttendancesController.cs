@@ -18,7 +18,9 @@ namespace THWebTuan4.Controllers
             DBConnect context = new DBConnect();
             if (context.Attendances.Any(p => p.Attendee == userId && p.CourseID == course.Id))
             {
-                return BadRequest("The attendance already exists!");
+                context.Attendances.Remove(context.Attendances.SingleOrDefault(p => p.Attendee == userId && p.CourseID == course.Id));
+                context.SaveChanges();
+                return Ok("cancel");
             }
             var attendance = new Attendance() { CourseID = course.Id, Attendee = User.Identity.GetUserId() };
             context.Attendances.Add(attendance);

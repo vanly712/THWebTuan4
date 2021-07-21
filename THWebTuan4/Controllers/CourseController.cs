@@ -110,5 +110,27 @@ namespace THWebTuan4.Controllers
             }
             return View(course);
         }
+
+        public ActionResult LectureIamGoing()
+        {
+            ApplicationUser currentUser = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            DBConnect db = new DBConnect();
+            var listFollowee = db.Followings.Where(p => p.FollowerId == currentUser.Id).ToList();
+            var listAttendances = db.Attendances.Where(p => p.Attendee == currentUser.Id).ToList();
+            var courses = new List<Course>();
+            foreach (var course in listAttendances)
+            {
+                foreach (var item in listFollowee)
+                {
+                    if (item.FollowerId == course.Course.LecturerId)
+                    {
+                        Course objCourse = course.Course;
+                        objCourse.LectureName = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(objCourse.LecturerId).Name;
+                        courses.Add(objCourse);
+                    }
+                }
+            }
+            return View(courses);
+        }
     }
 }
